@@ -1,0 +1,38 @@
+- id: "RULE-001"
+  name: "Missing Rollback Plan"
+  description: "Ensures a rollback plan is mentioned in the decision."
+  conditions:
+    - field: "content"
+      operator: "NOT_CONTAINS"
+      value: "rollback plan"
+  action:
+    type: "FLAG"
+    message: "Missing rollback plan section."
+    severity: "HIGH"
+
+- id: "RULE-002"
+  name: "No SLA Defined"
+  description: "Checks if SLA is defined for the service."
+  conditions:
+    - field: "content"
+      operator: "NOT_CONTAINS"
+      value: "SLA"
+  action:
+    type: "FLAG"
+    message: "Service Level Agreement (SLA) not defined."
+    severity: "MEDIUM"
+
+- id: "RULE-003"
+  name: "Stateful without HA"
+  description: "Flags stateful services that don't mention High Availability."
+  conditions:
+    - field: "content"
+      operator: "CONTAINS"
+      value: "stateful"
+    - field: "content"
+      operator: "NOT_CONTAINS"
+      value: "high availability"
+  action:
+    type: "FLAG"
+    message: "Stateful service proposed without High Availability strategy."
+    severity: "HIGH"
