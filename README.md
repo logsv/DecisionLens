@@ -32,29 +32,67 @@ DecisionLens is built as a **Maven Multi-Module** Spring Boot project, enforcing
 
 *   **Java 21+**
 *   **Maven 3.9+**
-*   **PostgreSQL** (Optional for logic tests, required for full run)
+*   **Docker** (Required for PostgreSQL)
 
-### Build the Project
+### 1. Start Database
+
+Start a PostgreSQL instance using Docker:
 
 ```bash
-# Build all modules
+docker run --name decision-postgres \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=decision_db \
+  -p 5432:5432 \
+  -d postgres:15
+```
+
+### 2. Build the Project
+
+```bash
 mvn clean install
 ```
 
-### Running Services
+### 3. Run Decision Service
 
-Each service is a standalone Spring Boot application.
+The service runs on port `8081`.
 
-**Run the Decision Service:**
 ```bash
 cd decision-service
 mvn spring-boot:run
 ```
 
-**Run the Evaluation Harness:**
+## 📡 API Usage
+
+You can interact with the API using `curl` or the Swagger UI (when enabled).
+
+### Create a Decision
+
 ```bash
-cd evaluation-harness
-mvn spring-boot:run
+curl -X POST http://localhost:8081/decisions \
+-H "Content-Type: application/json" \
+-d '{
+  "title": "Database Migration",
+  "content": "Switching from H2 to PostgreSQL for production readiness",
+  "author": "System Admin",
+  "version": "1.0.0"
+}'
+```
+
+### Get a Decision
+
+```bash
+curl -X GET http://localhost:8081/decisions/{decision_id}
+```
+
+### Update Decision Status
+
+```bash
+curl -X PATCH http://localhost:8081/decisions/{decision_id} \
+-H "Content-Type: application/json" \
+-d '{
+  "status": "ACCEPTED"
+}'
 ```
 
 ## 📝 Configuration

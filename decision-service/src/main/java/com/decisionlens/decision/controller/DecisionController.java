@@ -9,7 +9,6 @@ import com.decisionlens.decision.repository.DecisionRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +24,14 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/decisions")
-@RequiredArgsConstructor
 @Tag(name = "Decisions", description = "API for managing decisions")
 public class DecisionController {
 
     private final DecisionRepository decisionRepository;
+
+    public DecisionController(DecisionRepository decisionRepository) {
+        this.decisionRepository = decisionRepository;
+    }
 
     @PostMapping
     @Operation(summary = "Create a new decision")

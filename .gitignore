@@ -29,3 +29,14 @@ target/
 
 ### VS Code ###
 .vscode/
+
+### macOS ###
+.DS_Store
+
+### Local Maven ###
+apache-maven-*/
+*.tar.gz
+
+### Logs ###
+logs/
+*.log
